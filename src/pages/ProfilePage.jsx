@@ -299,11 +299,11 @@ function ProfilePage() {
                        <tr key={index}>
                          <td>{task.address || 'N/A'}</td>
                          <td>{task.deadline || 'N/A'}</td>
-                         <td>{task.routeDetails?.bestTime || 'N/A'}</td>
-                         <td>{task.routeDetails?.bestRoute || 'N/A'}</td>
-                         <td>{task.routeDetails?.distance || 'N/A'}</td>
-                         <td>{task.routeDetails?.duration || 'N/A'}</td>
-                         <td>{task.routeDetails?.day || 'N/A'}</td>
+                         <td>{task.bestTime || 'N/A'}</td>
+                         <td>{task.bestRoute || 'N/A'}</td>
+                         <td>{task.distance || 'N/A'}</td>
+                         <td>{task.duration || 'N/A'}</td>
+                         <td>{task.day || 'N/A'}</td>
                        </tr>
                      ))}
                    </tbody>
