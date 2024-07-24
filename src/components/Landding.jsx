@@ -19,7 +19,7 @@ function Landding() {
               هل تعاني من صعوبة تنظيم مشاويرك؟ هل تجد نفسك تهدر الكثير من الوقت في التنقل بين الأماكن المختلفة؟ لدينا الحل الأمثل لك.
             </p>
             <Link to="/scheduler">
-              <button className="mt-5 btn text-3xl bg-[#FFA842] text-white font-bold px-4 py-2 md:px-6 md:py-2 hover:bg-b transition duration-300 md:text-base max-sm:self-center">
+              <button className="mt-5 btn text-lg bg-[#FFA842] text-white font-bold px-4 py-2 md:px-6 md:py-2 hover:bg-b transition duration-300 md:text-base max-sm:self-center">
                 ابدأ الان
               </button>
             </Link>

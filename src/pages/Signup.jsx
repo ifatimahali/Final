@@ -77,7 +77,7 @@ function Signup() {
               <img src={img} alt="Logo" className="mt-12" />
             </Link>
           </div>
-          <div className="w-full py-10 px-5 md:px-10">
+          <div className="w-full py-10 px-5 md:px-10 max-sm:p-0">
             <div className="text-center mb-10">
               <h1 className="font-bold text-3xl text-[#9685CF]">
                 قم بإدخال معلوماتك للتسجيل

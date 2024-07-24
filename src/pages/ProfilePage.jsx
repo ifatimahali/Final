@@ -161,13 +161,16 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, datastore } from "../config/firbase";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from '../assets/logo-jadw.png';
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 
 function ProfilePage() {
   const [currentUser, setUser] = useState(null);
   const [schedule, setSchedule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showSchedule, setShowSchedule] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -197,7 +200,18 @@ function ProfilePage() {
       setLoading(false);
     }
   };
-
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        localStorage.removeItem("userId");
+        setIsLoggedIn(false);
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const fetchUserSchedule = async (user) => {
     try {
       const scheduleDoc = await getDoc(doc(datastore, "users", user.uid, "schedules", "currentSchedule"));
@@ -216,6 +230,8 @@ function ProfilePage() {
       setLoading(false);
     }
   }, []);
+  
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -237,48 +253,56 @@ function ProfilePage() {
   const handleShowProfileClick = () => {
     setShowSchedule(false);
   };
-
+  
   return (
     <div className='profile text-right'>
       <div className='contentProfile'>
-        <div className='flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2'>
+        <div className='flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2 '>
           <div className='sidebar w-[20%] h-[54vh] flex-shrink-0 max-sm:mt-28'>
             <Link to="/">
               <img src={logo} className="h-48 mr-[4.6vw] max-sm:hidden" alt="Logo"/>
             </Link>
             <ul className='sidebar-menu'>
               <div className='box sidebar-item text-[16px] flex mb-[10px]'>
-                <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-black'>
+                <li className='mb-[10px] text-center m-[auto] flex justify-between text-black'>
                   <Link to="#" onClick={handleShowProfileClick}>
                     البيانات الشخصية
                   </Link>
                 </li>
-                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                <span className='ml-[30px] mt-[-5px] text-gray-800'>
                   <i className="fa-regular fa-user"></i>
                 </span>
               </div>
               <div className='box sidebar-item text-[16px] flex mb-[10px]' onClick={handleShowScheduleClick}>
-                <li className='mb-[0px] font-bold text-center m-[auto] flex justify-between text-black'>
+                <li className='mb-[0px]  text-center m-[auto] flex justify-between text-black'>
                   جدولك
                 </li>
-                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                <span className='ml-[30px] mt-[-5px] text-gray-800'>
                   <i className="fa-solid fa-table"></i>
                 </span>
               </div>
-              <Link to="/login">
-                <div className='box sidebar-item text-[16px] flex mb-[10px]'>
-                  <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800' onClick={() => localStorage.clear()}>
+              <Link to='/scheduler'>
+              <div className='box sidebar-item text-[16px] flex mb-[10px] ' >
+                <li className='mb-[3px]  text-center m-[auto] flex justify-between text-black'>
+                الخريطة
+                </li>
+                <span className='ml-[30px] mt-[-5px] text-gray-800'>
+                  <i className="fa-solid fa-location-pin mt-[-20px]"></i>
+                </span>
+              </div>
+              </Link>
+                <div onClick={handleLogout} className='box sidebar-item text-[16px] flex mb-[10px]'>
+                  <li className='mb-[10px]  text-center m-[auto] flex justify-between text-gray-800' onClick={() => localStorage.clear()}>
                     تسجيل خروج
                   </li>
-                  <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                  <span className='ml-[30px] mt-[-5px] text-gray-800'>
                    <i className="fa-solid fa-right-from-bracket"></i>
                   </span>
                 </div>
-              </Link>
             </ul>
           </div>
-          <div className="form w-[60%] ml-4 flex-grow">
-            <div className="inputs bg-white p-8 shadow-xl rounded-[4px] h-full max-sm:mr-6">
+          <div className="form w-[60%] ml-4 flex-grow max-sm:w-full">
+            <div className="inputs bg-white p-8 shadow-xl rounded-[4px] h-full max-sm:mr-3 w-full">
               {showSchedule ? (
                <div className="schedule mt-8">
                {schedule && schedule.tasks && schedule.tasks.length > 0 ? (
@@ -320,8 +344,8 @@ function ProfilePage() {
                   <h3 className="mt-4 text-xl font-semibold">
                     {currentUser.firstName} {currentUser.lastName}
                   </h3>
-                  <div className="inputs w-full items-start grid grid-cols-2 gap-4 mt-4">
-                    <div className='box'>
+                  <div className="inputs w-full items-start grid grid-cols-2 gap-4 mt-4  max-sm:w-[50vw]">
+                    <div className='box max-sm:w-full'>
                       <label htmlFor="firstName" className="block text-gray-600 mb-[5px]">الاسم الأول</label>
                       <input
                         type="text"
@@ -331,7 +355,7 @@ function ProfilePage() {
                         readOnly
                       />
                     </div>
-                    <div>
+                    <div className='box max-sm:w-full' >
                       <label htmlFor="lastName" className="block text-gray-600 mb-[5px]">الاسم الأخير</label>
                       <input
                         type="text"
@@ -341,7 +365,7 @@ function ProfilePage() {
                         readOnly
                       />
                     </div>
-                    <div>
+                    <div className='box max-sm:w-full'>
                       <label htmlFor="email" className="block text-gray-600 mb-[5px]">الإيميل</label>
                       <input
                         type="email"
@@ -351,7 +375,7 @@ function ProfilePage() {
                         readOnly
                       />
                     </div>
-                    <div>
+                    <div className='box max-sm:w-full'>
                       <label htmlFor="phone" className="block text-gray-600 mb-[5px]">الهاتف</label>
                       <input
                         type="text"
