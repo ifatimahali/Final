@@ -11,13 +11,12 @@ const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
     if (isOpen) {
       const loadGoogleMapsScript = () => {
         const script = document.createElement("script");
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cOHxW7ND9ZzlnOnOGlJL9_OXzVsruJU&libraries=places";
+        script.src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9W3rYjrZCXq5cLjMHW-lpEuEJQ8K8CnY&libraries=places";
         script.async = true;
         script.defer = true;
         script.onload = () => initializeMap();
         document.head.appendChild(script);
       };
-
       const initializeMap = () => {
         navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords;

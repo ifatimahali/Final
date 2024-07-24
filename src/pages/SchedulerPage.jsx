@@ -2989,6 +2989,8 @@
 
 // export default SchedulerPage;
 
+
+
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import LocationChooserModal from "../components/LocationChooserModal";
@@ -3362,13 +3364,12 @@ const SchedulerPage = () => {
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
-      script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cOHxW7ND9ZzlnOnOGlJL9_OXzVsruJU&libraries=places";
+      script.src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMzdv8DEMVlz1HdW6YiqZGqKeWGJxS0T0&libraries=places";
       script.async = true;
       script.defer = true;
       script.onload = () => initializeMap();
       document.head.appendChild(script);
     };
-
     const initializeMap = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
